@@ -5,7 +5,7 @@
   </h1>
 
   <ng-container *ngFor="let trivia of data.results">
-    <h2>{{trivia.question}}</h2>
+    <p>{{trivia.question | decodeHtml}}</p>
     <button (click)="showHints = !showHints">Show Hints</button>
     <ng-container *ngIf="showHints">
       <div *ngFor="let hint of trivia.incorrect_answers">
@@ -13,18 +13,10 @@
       </div>
       <p>{{trivia.correct_answer}}</p>
     </ng-container>
-    <button (click)="showAnswer = !showAnswer">Show Answer</button> 
+    <button (click)="showAnswer = !showAnswer">Show Answer</button>
     <ng-container *ngIf="showAnswer">
       <p>{{trivia.correct_answer}}</p>
     </ng-container>
   </ng-container>
-<!-- 
-  <a href="" ng-click="showme=true">Show</a>
-  <button ng-click="showme=false">Hide</button> 
-  
-  <div class="wrapper">
-    <p ng-hide="showme">It will appear here!</p>
-    <h2 ng-show="showme">This is mah content, yo!</h2>
-  </div> -->
 
   <router-outlet></router-outlet>
