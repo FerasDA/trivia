@@ -1,22 +1,55 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to Boba Fett Trivia!
-  </h1>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <mat-icon class="home">home</mat-icon>
+    <span>Boba Fett Trivia</span>
+  </mat-toolbar-row>
+</mat-toolbar>
 
-  <ng-container *ngFor="let trivia of data.results">
-    <p>{{trivia.question | decodeHtml}}</p>
-    <button (click)="showHints = !showHints">Show Hints</button>
-    <ng-container *ngIf="showHints">
-      <div *ngFor="let hint of trivia.incorrect_answers">
-        <p>{{hint}}</p>
-      </div>
-      <p>{{trivia.correct_answer}}</p>
-    </ng-container>
-    <button (click)="showAnswer = !showAnswer">Show Answer</button>
-    <ng-container *ngIf="showAnswer">
-      <p>{{trivia.correct_answer}}</p>
-    </ng-container>
-  </ng-container>
+<div class="app-content">
+  <mat-card>
+    <mat-card-content *ngFor="let trivia of data.results">
+      <h2 class="example-h2">{{trivia.question | decodeHtml}}</h2>
+      <mat-divider></mat-divider>
 
-  <router-outlet></router-outlet>
+      <mat-accordion>
+        <mat-expansion-panel (opened)="showChoices = true" (closed)="showChoices = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Choices
+            </mat-panel-title>
+            <mat-panel-description>
+              {{showChoices ? 'hide' : 'show'}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <ng-container *ngIf="showChoices">
+            <div *ngFor="let hint of trivia.incorrect_answers">
+              <p>{{hint | decodeHtml}}</p>
+            </div>
+            <p>{{trivia.correct_answer | decodeHtml}}</p>
+          </ng-container>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <mat-divider></mat-divider>
+
+      <mat-accordion>
+        <mat-expansion-panel (opened)="showAnswer = true" (closed)="showAnswer = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Answer
+            </mat-panel-title>
+            <mat-panel-description>
+              {{showAnswer ? 'hide' : 'show'}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p *ngIf="showAnswer">{{trivia.correct_answer | decodeHtml}}</p>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <mat-divider></mat-divider>
+
+      <button (click)="nextQuestion()" class="app-button" mat-raised-button color="primary">Next Question</button>
+
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<router-outlet></router-outlet>

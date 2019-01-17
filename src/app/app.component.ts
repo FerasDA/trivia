@@ -13,7 +13,6 @@ export class AppComponent {
   data: any = [];
 
   constructor(private http: HttpClient) {
-    console.log('call api');
     this.getTrivia();
     this.showTrivia();
   }
@@ -29,6 +28,11 @@ export class AppComponent {
         this.data = data;
       }
     )
+  }
+
+  nextQuestion() {
+    this.getTrivia();
+    this.showTrivia();
   }
 
 }
